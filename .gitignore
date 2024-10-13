@@ -1,5 +1,6 @@
 venv/
 data/vocal_ventricular_flow_rate_change/CSV/
 data/vocal_ventricular_flow_rate_change/RAW/
-data/vocal_ventricular_flow_rate_change/Analysis_Result_23spring.xlsx
 data/vocal_ventricular_flow_rate_change/file_location.txt
+data/vocal_ventricular_flow_rate_change/20221003_model/
+data/vocal_ventricular_flow_rate_change/20230403_model/
