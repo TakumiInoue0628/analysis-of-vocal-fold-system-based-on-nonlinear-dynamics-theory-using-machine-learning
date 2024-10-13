@@ -11,6 +11,7 @@ from bifurcation.function import *
 def local_maxima(data_list,
                  parameter_list, 
                  prominence=1.,
+                 height=None,
                  distance=None,
                  threshold=None,
                  savgol_filtering=False,
@@ -39,7 +40,7 @@ def local_maxima(data_list,
     for i in range(len(data_list)):
         if savgol_filtering: data = savgol_filter(data_list[i], window_length=savgol_filter_params['window length'], polyorder=savgol_filter_params['polyorder'])
         else: data = data_list[i]
-        peaks, idx = fing_peaks_index(data, prominence, distance, threshold)
+        peaks, idx = fing_peaks_index(data, prominence, height, distance, threshold)
         localmaxima_list.append(peaks)
         localmaxima_idx_list.append(idx)
         localmaxima_parameter_list.append(np.full(len(peaks), parameter_list[i][0]))
