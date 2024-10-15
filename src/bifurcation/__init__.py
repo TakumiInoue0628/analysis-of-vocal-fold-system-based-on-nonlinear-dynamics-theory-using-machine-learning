@@ -7,15 +7,17 @@ from scipy.signal import savgol_filter
 parent_dir = dirname(dirname(abspath(__file__)))
 sys.path.append(parent_dir)
 from bifurcation.function import *
+from util import Normalization
 
 def local_maxima(data_list,
                  parameter_list, 
-                 prominence=1.,
-                 height=None,
-                 distance=None,
-                 threshold=None,
+                 standard_scaler=False,
                  savgol_filtering=False,
                  return_flatten=False,
+                 find_peaks_params={'prominence':1, 
+                                    'height':None, 
+                                    'distance':None, 
+                                    'threshold':None},
                  savgol_filter_params={'window length': 1,
                                         'polyorder': 1}
                 ):
@@ -38,9 +40,14 @@ def local_maxima(data_list,
     localmaxima_idx_list = []
     localmaxima_parameter_list = []
     for i in range(len(data_list)):
-        if savgol_filtering: data = savgol_filter(data_list[i], window_length=savgol_filter_params['window length'], polyorder=savgol_filter_params['polyorder'])
+
+        if standard_scaler:
+            data = (data_list[i] - np.mean(data_list[i])) / np.std(data_list[i]) 
         else: data = data_list[i]
-        peaks, idx = fing_peaks_index(data, prominence, height, distance, threshold)
+
+        if savgol_filtering: data = savgol_filter(data, window_length=savgol_filter_params['window length'], polyorder=savgol_filter_params['polyorder'])
+
+        peaks, idx = fing_peaks_index(data, prominence=find_peaks_params['prominence'], height=find_peaks_params['height'], distance=find_peaks_params['distance'], threshold=find_peaks_params['threshold'])
         localmaxima_list.append(peaks)
         localmaxima_idx_list.append(idx)
         localmaxima_parameter_list.append(np.full(len(peaks), parameter_list[i][0]))
